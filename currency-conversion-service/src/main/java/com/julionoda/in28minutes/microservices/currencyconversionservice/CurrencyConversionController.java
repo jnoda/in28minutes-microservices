@@ -17,7 +17,9 @@ public class CurrencyConversionController {
 
     @GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversion calculateCurrencyConversion(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
-        CurrencyConversion currencyConversion = service.retrieveExchangeValue(from, to);
+        CurrencyConversion currencyConversion = service.retrieveExchangeValue(from, to)
+                .orElseThrow(() -> new RuntimeException(String.format("Unable to find exchange data from %s to %s", from, to)));
+
         currencyConversion.setTotalCalculatedAmount(quantity.multiply(currencyConversion.getConversionMultiple()));
         return currencyConversion;
     }
