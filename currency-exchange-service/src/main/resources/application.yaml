@@ -1,0 +1,34 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+resilience4j:
+  retry:
+    instances:
+      sample-retry:
+        enable-exponential-backoff: true
+        max-attempts: 5
+        wait-duration: 1s
+  ratelimiter:
+    instances:
+      default:
+        limit-refresh-period: 10s
+        limit-for-period: 2
+  bulkhead:
+    instances:
+      default:
+        max-concurrent-calls: 2
+server:
+  port: 8000
+spring:
+  application:
+    name: currency-conversion-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  datasource:
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
