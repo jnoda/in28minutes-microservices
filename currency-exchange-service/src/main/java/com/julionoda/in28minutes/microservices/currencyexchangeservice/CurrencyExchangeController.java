@@ -1,11 +1,13 @@
 package com.julionoda.in28minutes.microservices.currencyexchangeservice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
+@Slf4j
 @RestController
 public class CurrencyExchangeController {
     private final Environment environment;
@@ -26,6 +28,8 @@ public class CurrencyExchangeController {
 
     @GetMapping("/currency-exchange/from/{from}/to/{to}")
     public CurrencyExchange retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
+        log.info("retrieveExchangeValue called with {} to {}", from, to);
+
         CurrencyExchange currencyExchange = repository.findByFromAndTo(from, to)
                 .orElseThrow(() -> new CurrencyExchangeNotFoundException(String.format("Unable to find exchange data from %s to %s", from, to)));
 
