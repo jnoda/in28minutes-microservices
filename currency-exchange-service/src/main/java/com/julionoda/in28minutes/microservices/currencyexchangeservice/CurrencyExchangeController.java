@@ -34,7 +34,11 @@ public class CurrencyExchangeController {
                 .orElseThrow(() -> new CurrencyExchangeNotFoundException(String.format("Unable to find exchange data from %s to %s", from, to)));
 
         String port = environment.getProperty("local.server.port");
-        currencyExchange.setEnvironment(port);
+        String host = environment.getProperty("HOSTNAME");
+        String version = "v11";
+
+        currencyExchange.setEnvironment(port + " " + version + " " + host);
+
         return currencyExchange;
     }
 }
