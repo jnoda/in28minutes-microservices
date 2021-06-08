@@ -26,6 +26,14 @@ spec:
         - image: julionoda/in28min-microservices-currency-exchange-service:0.0.12-SNAPSHOT
           imagePullPolicy: IfNotPresent
           name: in28min-microservices-currency-exchange-service
+          readinessProbe:
+            httpGet:
+              port: 8000
+              path: /actuator/health/readiness
+          livenessProbe:
+            httpGet:
+              port: 8000
+              path: /actuator/health/liveness
       restartPolicy: Always
 ---
 apiVersion: v1
